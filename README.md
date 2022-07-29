@@ -18,6 +18,8 @@ Apart from random values generated as a part of python script, we use the follow
     e. reviews.csv - Dataset contaning the review of the games
     f. steam_description_data-1.csv, steam-1.csv - Dataset containing information about all the games
     g. steam_support_info-1.csv - Dataset contaning the support information for the games
+    h. Download the steam-description-data-1.csv file from https://mega.nz/file/oAxSnBDR#rrmWDcYnl8v9Y5-wle_JYZgETzMwjrzT6XzMYV7JPvA and copy it in the insertion_scripts folder.
+    i. Download the steam reviews dataset from https://www.kaggle.com/datasets/andrewmvd/steam-reviews and copy it in the insertion_scripts folder.
 
 3. Steps to run the UI application
 	I. Navigate to ui_app
