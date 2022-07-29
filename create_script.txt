@@ -1,0 +1,221 @@
+CREATE TABLE Customer(
+	Customer_ID INTEGER PRIMARY KEY,
+	First_Name VARCHAR(100) NOT NULL,
+	Last_Name VARCHAR(100) NOT NULL,
+	Email VARCHAR(100) NOT NULL,
+	Contact_Number BIGINT NOT NULL,
+	DOB Date,
+	Password VARCHAR(100) NOT NULL 
+);
+
+CREATE TABLE Game(
+	Game_ID INTEGER PRIMARY KEY,
+	Game_name VARCHAR(500) NOT NULL,
+	Developer VARCHAR(500) NOT NULL,
+	Publisher VARCHAR(500) NOT NULL,
+	Age_rating VARCHAR(4) NOT NULL,
+	Price NUMERIC,
+        Synopsis VARCHAR,
+	Release_date TIMESTAMP
+);
+
+CREATE TABLE Game_Category(
+    Game_ID INTEGER,
+    Category VARCHAR
+);
+
+CREATE TABLE Game_Genre(
+    Game_ID INTEGER,
+    Genre VARCHAR
+);
+
+CREATE TABLE Payment(
+	Payment_ID INTEGER PRIMARY KEY,
+	Cost NUMERIC NOT NULL,
+	Payment_Time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	Customer_ID INTEGER,
+	Payment_Method VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Purchase(
+	Payment_ID INTEGER,
+	Game_ID INTEGER NOT NULL,
+	discount_percent NUMERIC DEFAULT 0
+);
+
+CREATE TABLE Review(
+	Review_ID INTEGER PRIMARY KEY,
+	Score INTEGER NOT NULL,
+	Comment VARCHAR DEFAULT '',
+	no_of_upvotes INTEGER DEFAULT 0,
+	no_of_downvotes INTEGER DEFAULT 0
+);
+
+CREATE TABLE Game_Review(
+    Game_ID INTEGER NOT NULL,
+	Customer_ID INTEGER NOT NULL,
+    Review_ID INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE Requirement(
+    Req_ID INTEGER PRIMARY KEY,
+    min_memory NUMERIC(3,2),
+	rec_memory NUMERIC(3,2) NOT NULL,
+	min_GPU VARCHAR(100),
+	rec_GPU VARCHAR(100) NOT NULL,
+	min_storage NUMERIC(5,2),
+	rec_storage NUMERIC(5,2) NOT NULL,
+	min_CPU VARCHAR(100),
+	rec_CPU VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Game_Requirement(
+	Req_ID INTEGER PRIMARY KEY,
+	Game_ID INTEGER NOT NULL,
+	Platform VARCHAR(20) NOT NULL,
+	CHECK (Platform IN ('PC', 'XBox', 'PlayStation'))
+);
+
+CREATE TABLE Game_Support(
+	Game_ID INTEGER PRIMARY KEY,
+	Website VARCHAR(500) DEFAULT '',
+	Support_URL VARCHAR(500) DEFAULT '',
+	Support_email VARCHAR(500) DEFAULT ''
+);
+
+CREATE TABLE Stats(
+	Stats_ID INTEGER PRIMARY KEY,
+	hours_played NUMERIC(20, 3) NOT NULL,
+	last_played TIMESTAMP,
+	ingame_purchase_amt NUMERIC
+);
+
+CREATE TABLE Game_Stats(
+    Game_ID INTEGER,
+    Customer_ID INTEGER,
+    Stats_ID INTEGER PRIMARY KEY
+);
+
+CREATE TABLE Achievements(
+	Achieve_ID INTEGER PRIMARY KEY,
+	Title VARCHAR(50),
+	Badge VARCHAR(50)
+);
+
+CREATE TABLE Game_Achievements(
+    Game_ID INTEGER,
+    Customer_ID INTEGER,
+    Achieve_ID INTEGER PRIMARY KEY
+);
+
+CREATE SEQUENCE review_seq START 1;
+
+CREATE SEQUENCE payment_seq START 1;
+
+create sequence stats_seq start 1;
+
+create sequence achieve_seq start 1;
+
+ALTER TABLE customer ADD CONSTRAINT uk_email_constraint UNIQUE (email);
+
+ALTER TABLE Game_Category 
+  ADD CONSTRAINT fk_Game_ID_Game_Category 
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Genre 
+  ADD CONSTRAINT fk_Game_ID_Game_Genre 
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Payment
+  ADD CONSTRAINT fk_Customer_ID_Payment
+  FOREIGN KEY (Customer_ID) 
+  REFERENCES Customer(Customer_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Purchase
+  ADD CONSTRAINT fk_Payment_ID_Purchase
+  FOREIGN KEY (Payment_ID) 
+  REFERENCES Payment(Payment_ID)
+  ON DELETE CASCADE;
+
+ALTER TABLE Purchase
+  ADD CONSTRAINT fk_Game_ID_Purchase
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Review
+  ADD CONSTRAINT fk_Game_ID_Game_Review
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+
+ALTER TABLE Game_Review
+  ADD CONSTRAINT fk_Customer_ID_Game_Review
+  FOREIGN KEY (Customer_ID) 
+  REFERENCES Customer(Customer_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Review
+  ADD CONSTRAINT fk_Review_ID_Game_Review
+  FOREIGN KEY (Review_ID) 
+  REFERENCES Review(Review_ID)
+  ON DELETE CASCADE;
+
+ALTER TABLE Game_Requirement
+  ADD CONSTRAINT fk_Game_ID_Game_Requirement
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Requirement
+  ADD CONSTRAINT fk_Req_ID_Game_Requirement
+  FOREIGN KEY (Req_ID) 
+  REFERENCES Requirement(Req_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Support
+  ADD CONSTRAINT fk_Game_ID_Game_Support
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Stats
+  ADD CONSTRAINT fk_Game_ID_Game_Stats
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Stats
+  ADD CONSTRAINT fk_Customer_ID_Game_Stats
+  FOREIGN KEY (Customer_ID) 
+  REFERENCES Customer(Customer_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Stats
+  ADD CONSTRAINT fk_Stats_ID_Game_Stats
+  FOREIGN KEY (Stats_ID) 
+  REFERENCES Stats(Stats_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Achievements
+  ADD CONSTRAINT fk_Game_ID_Game_Achievements
+  FOREIGN KEY (Game_ID) 
+  REFERENCES Game(Game_ID)
+  ON DELETE CASCADE;
+ 
+ALTER TABLE Game_Achievements
+  ADD CONSTRAINT fk_Customer_ID_Game_Achievements
+  FOREIGN KEY (Customer_ID) 
+  REFERENCES Customer(Customer_ID)
+  ON DELETE CASCADE;
+  
+ALTER TABLE Game_Achievements
+  ADD CONSTRAINT fk_Achieve_ID_Game_Achievements
+  FOREIGN KEY (Achieve_ID) 
+  REFERENCES Achievements(Achieve_ID)
+  ON DELETE CASCADE;
