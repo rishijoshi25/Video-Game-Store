@@ -1,5 +1,5 @@
 # Video-Game-Store
-
+<pre>
 1. Instructions to create tables and insert data into the relations
 
     I. Table Creation - Run all the scripts in the file create_script.txt inside pgadmin.
@@ -35,3 +35,4 @@ Apart from random values generated as a part of python script, we use the follow
         c. host - Host where the database is accessed from
         d. port - Post used to access the database
         e. database - Database name
+</pre>
