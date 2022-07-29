@@ -1,0 +1,135 @@
+{% extends 'layout.html' %}
+
+{% block title %}Game Dashboard{% endblock %}
+
+{% block content %}
+<h2>
+    {{ game_details[1] }}
+    {% if purchased %}
+
+    <i class="fa fa-play-circle"></i>
+
+    {% else %}
+    <form action="{{ url_for('game_dashboard', game_id = game_id) }}" method="post">
+        <button name="add_cart">
+            <i class="fa fa-plus-circle"></i>
+        </button>
+    </form>
+    {% endif %}
+
+</h2>
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Developer</th>
+                    <th>Publisher</th>
+                    <th>Genres</th>
+                    <th>Categories</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ game_details[1] }}</td>
+                    <td>{{ game_details[2] }}</td>
+                    <td>{{ game_details[3] }}</td>
+                    <td>{% for genre in genres %}
+                        {{ genre[0] }}
+                        {% endfor %}
+                    </td>
+                    <td>{% for category in categories %}
+                        {{ category[0] }}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h4>Total hours played</h4>
+        <h1>{{ game_details[-1] }}</h1>
+        <h4>Release Date</h4>
+        <h1>{{ game_details[-2].strftime('%Y-%m-%d') }}</h1>
+      </div>
+      <div class="col">
+        <h4>About the Game</h4>
+        {{ game_details[-3]|safe }}
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% for requirement in game_requirements %}
+            <h4>{{ requirement[0] }} Requirements</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Minimum Memory (GB)</th>
+                        <th>Minimum GPU</th>
+                        <th>Minimum Storage (MB)</th> 
+                        <th>Minimum CPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ requirement[2] }}</td>
+                        <td>{{ requirement[4] }}</td>
+                        <td>{{ requirement[6] }}</td>
+                        <td>{{ requirement[8] }}</td>
+                    </tr>
+                </tbody>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Recommended Memory (GB)</th>
+                            <th>Recommended GPU</th>
+                            <th>Recommended Storage (MB)</th>  
+                            <th>Recommended CPU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ requirement[3] }}</td>
+                            <td>{{ requirement[5] }}</td>
+                            <td>{{ requirement[7] }}</td>
+                            <td>{{ requirement[9] }}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <h4> Game Support </h4>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>Website</td>
+                        <td>{{ game_support[1] }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Support URL</td>
+                        <td>{{ game_support[2] }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Support Email</td>
+                        <td>{{ game_support[3] }}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+  </div>
+  
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block content %}
+<h2> Added Games of {{ session.get("first") }}</h2>
+{% if added_games %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in added_games %}
+                    <tr>
+                        <td>{{ game[1] }}</td>
+                        <td>{{ game[2] }}
+                            <form action="{{ url_for('cart') }}" , method="POST">
+                                <input type="hidden" value="{{ game[3] }}" name=game_to_delete />
+                                <input type="hidden" value="{{ game[4] }}" name=payid_to_delete />
+                                <button name="delete_game"><i class="fas fa-minus-circle"></i> Remove Game</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Total Cost</td>
+                        <td>{{ added_games[0][0] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{{ url_for('cart') }}">
+                <input type="radio" id="credit" name="payment" value="Credit/Debit Card">
+                <label for="credit">Credit/Debit Card</label><br>
+                <input type="radio" id="ibank" name="payment" value="Internet Banking">
+                <label for="ibank">Internet Banking</label><br>
+                <input type="radio" id="paypal" name="payment" value="Paypal">
+                <label for="paypal">Paypal</label>
+                <button><i class="fas fa-shopping-cart"></i> Place Order</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <p>Empty Cart!!</p>
+    {% endif %}
+</div>
+
+
+
+
+{% endblock %}

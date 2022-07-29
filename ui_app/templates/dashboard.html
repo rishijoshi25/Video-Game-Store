@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+ 
+{% block content %}
+<h2>{{ session.get("first") }}</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <h4>Personal Info</h4>
+            <br>
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <td>First Name:</td>
+                    <td>{{ customer[0][1] }}</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>{{ customer[0][2] }}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{ customer[0][3] }}</td>
+                </tr>
+                <tr>
+                    <td>Contact Number:</td>
+                    <td>{{ customer[0][4] }}</td>
+                </tr>
+                <tr>
+                    <td>Date Of Birth:</td>
+                    <td>{{ customer[0][5] }}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+
+        <div class="col-6">
+            <h4>List of purchased games</h4>
+            <br>
+            <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Game Purchased</th>
+                <th>Mode of Payment</th>
+            </tr>
+        </thead>
+            <tbody>
+            {% for purchase in purchases %}
+            <tr>
+                <td>{{ purchase[1] }}</td>
+                <td>{{ purchase[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            <h4>List of Game achievements</h4>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Game Played</th>
+                    <th>Title</th>
+                    <th>Badge</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for achievement in game_achievements %}
+                <tr>
+                    <td>{{ achievement[0] }}</td>
+                    <td>{{ achievement[1] }}</td>
+                    <td>{{ achievement[2] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="col">
+            <h4>List of player stats</h4>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Game Played</th>
+                    <th>Total Hours Played</th>
+                    <th>Last Played</th>
+                    <th>Total In-game purchase amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for stat in game_stats %}
+            <tr>
+                <td>{{ stat[3] }}</td>
+                <td>{{ stat[0] }}</td>
+                <td>{{ stat[1] }}</td>
+                <td>{{ stat[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

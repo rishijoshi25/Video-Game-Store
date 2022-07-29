@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+</head>
+
+<body class="loggedin">
+    <nav class="navtop">
+        <div>
+            <h1>
+                <a href="{{ url_for('dashboard', customer_id=session['id']) }}"><img class="float-md-start mb-0"
+                        src="{{ url_for('static', filename='gv-logo.jpeg') }}" alt="" width="70" height="50"></a>Game
+                Shoppers
+                
+                <form method="POST" action="{{ url_for('search_games') }}">
+                    <input type="text" name = "gameText" class="searchTerm" placeholder="What are you looking for?" style="height:50px; width:300px;padding-left: 10px;margin-left: 20px;">
+                    <button type="submit" class="searchButton" style="height:50px;width: 60px">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </h1>
+            
+            <a href="{{ url_for('dashboard', customer_id=session['id']) }}"><i
+                    class="fas fa-user-circle"></i>Profile</a>
+            <a href="{{ url_for('cart') }}"><i class="fas fa-shopping-cart"></i></a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+
+</html>
